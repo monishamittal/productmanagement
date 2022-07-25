@@ -150,23 +150,42 @@ const createUser = async function (req, res) {
       }
 }
 
-// const loginUser = async function (req, res) {
-//     try {
-        
+const loginUser = async function (req, res) {
+    try {
+       let userEmail = req.pbody.email
+       let userPassword = req.body.password
+       let userDetails = await userModel.findOne({ email: userEmail, password: userPassword })
+ if (!userDetails) {
+   res.status(400).send({ status: false, MSg: "userEmail or userPassword is invalid" })
+ }
+ let token = jwt.sign(
+  {
+     userId: userDetails._id.toString(),
+   },"blogPro ject");
+ res.setHeader("x-api-key", token);
+ res.status(201).send({ status: true, token: token })
 
-//     } catch (err) {
-//         res.status(500).send({status: false,  message: err });
-//       }
-// }
+   } catch (err) {
+       res.status(500).send({status: false,  message: err });
+     }
+}
 
-// const getUser = async function (req, res) {
-//     try {
-        
-
-//     } catch (err) {
-//         res.status(500).send({status: false,  message: err });
-//       }
-// }
+const getUser = async (req, res) => {
+    try {
+      let userId = req.params.userId;
+      if (!isValidObjectId(userId))
+        return res
+          .status(400).send({ status: false, msg: `Oops! ${userId} This Not Valid UserId ` });
+      let userDetail = await userModel.findById({ userId });
+      if (!userDetail) {
+        return res.status(404).send({ status: false, msg: "User you are searching for is not here" });
+      } else {
+        res.status(200).send({status: true,msg: "Your details is here", data:userDetail });
+      }
+    } catch (error) {
+      res.status(500).send({ status: false, msg: error.message });
+    }
+  };
 
 // const updateUser = async function (req, res) {
 //     try {
@@ -177,4 +196,4 @@ const createUser = async function (req, res) {
 //       }
 // }
 
-module.exports = { createUser }
+module.exports = { createUser,loginUser ,getUser}
