@@ -161,7 +161,7 @@ const loginUser = async function (req, res) {
  let token = jwt.sign(
   {
      userId: userDetails._id.toString(),
-   },"blogPro ject");
+   },"Project5");
  res.setHeader("x-api-key", token);
  res.status(201).send({ status: true, token: token })
 
