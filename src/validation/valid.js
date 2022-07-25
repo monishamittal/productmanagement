@@ -50,8 +50,12 @@ const  isValidObjectId =function(id){
     var ObjectId = mongoose.Types.ObjectId;
     return ObjectId.isValid(id)
 }
-
-
+//  Address Validation
+const isValidAddress = function (address) {
+    if (typeof address === 'undefined' || address === null) return false
+    if (Object.keys(address).length === 0) return false
+    return true;
+}
 
 //Date Validation
 const isValidDate =function(date){
@@ -71,5 +75,6 @@ module.exports = {
     isValidObjectId, 
     isValid,
     isValidDate,
+    isValidAddress,
   
 }
