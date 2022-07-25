@@ -5,61 +5,61 @@ const mongoose = require("mongoose");
 //................................. Create Schema .........................//
 const userSchema = new mongoose.Schema(
     {
-        "fname": {
+        fname: {
             type: String,
             required: true
         },
-        "lname": {
+        lname: {
             type: String,
             required: true
         },
-        "email": {
+        email: {
             type: String,
             required: true,
             // valid email, 
             unique: true
         },
-        "profileImage": {
+        profileImage: {
             type: String,
             required: true
         }, // s3 link
-        "phone": {
+        phone: {
             type: String,
             required: true,
             unique: true,
             //  valid Indian mobile number
         },
-        "password": {
+        password: {
             type: String,
             required: true,
             //  minLen 8, maxLen 15
         }, // encrypted password
-        "address": {
-            "shipping": {
-                "street": {
+        address: {
+            shipping: {
+                street: {
                     type: String,
                     required: true
                 },
-                "city": {
+                city: {
                     type: String,
                     required: true
                 },
-                "pincode": {
+                pincode: {
                     type: Number,
                     required: true
                 }
             }
         },
-        "billing": {
-            "street": {
+        billing: {
+            street: {
                 type: String,
                 required: true
             },
-            "city": {
+            city: {
                 type: String,
                 required: true
             },
-            "pincode": {
+            pincode: {
                 type: Number,
                 required: true
             }
