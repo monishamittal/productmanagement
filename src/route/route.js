@@ -4,11 +4,12 @@ const orderController = require("../controller/orderController")
 const cartController = require("../controller/cartController")
 const productController = require("../controller/productController")
 const userController = require("../controller/userController")
+const middleware = require("../middleware/auth")
 
 router.post('/register',userController.createUser);
-router.post('/register',userController.loginUser);
-router.get('/user/:userId/profile',userController.getUser);
-router.put('/user/:userId/profile',userController.updateUser);
+router.post('/login',userController.loginUser);
+router.get('/user/:userId/profile',middleware.authentication,userController.getUser);
+router.put('/user/:userId/profile',middleware.authentication,userController.updateUser);
 
 // router.post('/products',productController.createProduct);
 // router.get('/products',productController.getProduct);

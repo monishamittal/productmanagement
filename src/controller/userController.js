@@ -1,5 +1,6 @@
 const userModel = require('../model/userModel');
 const aws= require("aws-sdk")
+const jwt =require('jsonwebtoken')
 
 const { isValidName, isValidString, isValidEmail, isValidMobile, isValidPassword, isValidProfile, isValidObjectId, isValid, isValidDate, isValidAddress } = require('../validation/valid')
 
@@ -176,40 +177,50 @@ const createUser = async function (req, res) {
 
 const loginUser = async function (req, res) {
     try {
-       let userEmail = req.pbody.email
-       let userPassword = req.body.password
-       let userDetails = await userModel.findOne({ email: userEmail, password: userPassword })
- if (!userDetails) {
-   res.status(400).send({ status: false, MSg: "userEmail or userPassword is invalid" })
- }
- let token = jwt.sign(
-  {
-     userId: userDetails._id.toString(),
-   },"Project5");
- res.setHeader("x-api-key", token);
- res.status(201).send({ status: true, token: token })
+      const email = req.body.email;
+      const password = req.body.password;
+  
+      const user = await userModel.findOne({email: email,password: password});
+      if (!user) {
+        return res.status(400).send({status: false,msg: "Provided Email address or Password are incorrect"})}
+     
+  let userId = user._id
+  let token = jwt.sign({
 
-   } catch (err) {
-       res.status(500).send({status: false,  message: err });
-     }
-}
+      userId: userId,                                     //unique Id
+      at: Math.floor(Date.now() / 1000),                  //issued date
+      exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60   //expires in 24 hr 
 
-const getUser = async (req, res) => {
-    try {
-      let userId = req.params.userId;
-      if (!isValidObjectId(userId))
-        return res
-          .status(400).send({ status: false, msg: `Oops! ${userId} This Not Valid UserId ` });
-      let userDetail = await userModel.findById({ userId });
-      if (!userDetail) {
-        return res.status(404).send({ status: false, msg: "User you are searching for is not here" });
-      } else {
-        res.status(200).send({status: true,msg: "Your details is here", data:userDetail });
-      }
-    } catch (error) {
-      res.status(500).send({ status: false, msg: error.message });
+  }, "Project5")
+    
+      res.status(200).send({ status: true, message: "User login successfull", data: {userId, token: token } });
+  
+    } catch (err) {
+      return res.status(500).send({ status: false, msg: err.message });
     }
   };
+
+
+  const getUser= async function (req, res) {
+    try {
+
+        const userId = req.params.userId
+
+        if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "Invalid userId" })
+
+        const userData = await userModel.findOne({ _id: userId })
+            .select({ address: 1, _id: 1, fname: 1, lname: 1, email: 1, profileImage: 1, phone: 1, password: 1 })
+
+        if (!userData) return res.status(404).send({ status: false, message: "User not found " })
+
+        return res.status(200).send({ status: true, message: "user profile details", data: userData })
+
+    }
+    catch (err) {
+        res.status(500).send({ status: false, message: err.message })
+
+    }
+}
 
    const updateUser = async function (req, res) {
     try {
