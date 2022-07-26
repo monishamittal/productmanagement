@@ -1,10 +1,7 @@
 const userModel = require('../model/userModel');
-const aws = require('aws-sdk')
+const aws= require("aws-sdk")
+
 const { isValidName, isValidString, isValidEmail, isValidMobile, isValidPassword, isValidProfile, isValidObjectId, isValid, isValidDate, isValidAddress } = require('../validation/valid')
-
-
-
-//================================================[Upload File Function -AWS]=======================================================================
 
 
 aws.config.update({
@@ -33,14 +30,13 @@ let uploadFile= async ( file) =>{
 })
 }
 
-
 //================================================[Create User  Api]=======================================================================
 
 
 const createUser = async function (req, res) {
     try {
         let data = req.body
-        let {fname, lname, email, profileImage, phone, password, address, street, city, pincode} = data
+        let {fname, lname, email,  phone, password, address, street, city, pincode} = data
         if(Object.keys(data).length < 1){
             return res.status(400).send({ status: false, message: "Data is required to create a user" })
         }
@@ -73,12 +69,12 @@ const createUser = async function (req, res) {
         }
         // -------------Validation Profile Image
 
-        if(!isValid(profileImage)){
-            return res.status(400).send({status: false, message: "Enter Profile Image"});
-        }
-        if(!isValidProfile(profileImage)){
-            return res.status(400).send({status: false, message: "Enter Valid Profile Image"});
-        }
+    //     if(!isValid(profileImage)){
+    //         return res.status(400).send({status: false, message: "Enter Profile Image"});
+    //    }
+    //     if(!isValidProfile(profileImage)){
+    //        return res.status(400).send({status: false, message: "Enter Valid Profile Image"});
+    //     }
 
 
         //------------- Validation Phone
@@ -102,25 +98,46 @@ const createUser = async function (req, res) {
 
          // -------------Validation Address
 
-         if (!isValidAddress(address)) return res.status(400).send({ status: false, message: "Address cannot be empty if it is mentioned." })
-         if(address){
-            if (typeof(address) != 'object')  return res.status(400).send({ status: false, message: "address must be in object." })
-         if(!isValid(address.street)){
-            return res.status(400).send({status: false, message: " Enater Street"});
-         }
 
-         if(!isValid(address.city)){
-            return res.status(400).send({status: false, message: " Enater City"});
-         }
-
-         if(!isValid(address.pincode)){
-            return res.status(400).send({status: false, message: " Enater Pincode"});
-         }
-         if (!/^[0-9]{6}$/.test(address.pincode))return res.status(400).send({ status: false, message: "Invalid pincode." })
+         if (!isValid(address)) {
+            return res.status(400).send({ status: false, message: "Please enter address!" })
         }
 
+
+        if (!isValid(address.shipping)) {
+            return res.status(400).send({ status: false, message: "Please enter shipping address!" })
+        }
+
+        if (!isValid(address.shipping.city)) {
+            return res.status(400).send({ status: false, message: "Please enter city in shiping address!" })
+        }
+
+        if (!isValid(address.shipping.street)) {
+            return res.status(400).send({ status: false, message: "Please enter street in shiping address!" })
+        }
+
+        if (!isValid(address.shipping.pincode)) {
+            return res.status(400).send({ status: false, message: "Please enter pincode in shiping address!" })
+        }
+
+
+        if (!isValid(address.billing)) {
+            return res.status(400).send({ status: false, message: "Please enter billing address!" })
+        }
+
+        if (!isValid(address.billing.city)) {
+            return res.status(400).send({ status: false, message: "Please enter city in billing address!" })
+        }
+
+        if (!isValid(address.billing.street)) {
+            return res.status(400).send({ status: false, message: "Please enter street in billing address!" })
+        }
+
+        if (!isValid(address.billing.pincode)) {
+            return res.status(400).send({ status: false, message: "Please enter pincode in billing address!" })
+        }
         
-         //********************************DB call email and phone ************/
+         //***********DB call email and phone *****/
 
         let checkPhone=await userModel.findOne({phone: data.phone})
         if(checkPhone) return res.status(400).send({status: false, message :"Phone already exists"})
@@ -134,10 +151,14 @@ const createUser = async function (req, res) {
         //==================================== Profile Images check for aws ===================================================
 
         let files=req.files
-        if (!(files&&files.length)) {
-            return res.status(400).send({ status: false, message: " Please Provide The Profile Image" });}
+        
+         //let profileImgUrl = await uploadFile(files[0]);
+        // data.profileImage = profileImgUrl;
+
+         if (!(files&&files.length)) {
+           return res.status(400).send({ status: false, message: " Please Provide The Profile Image" });}
         const uploadedBookImage = await uploadFile(files[0])
-        data.bookImage=uploadedBookImage
+        data.profileImage=uploadedBookImage
 
         //=======================================================================================
 
@@ -149,6 +170,9 @@ const createUser = async function (req, res) {
         res.status(500).send({status: false,  message: err });
       }
 }
+
+
+
 
 const loginUser = async function (req, res) {
     try {
@@ -187,13 +211,69 @@ const getUser = async (req, res) => {
     }
   };
 
-// const updateUser = async function (req, res) {
-//     try {
+   const updateUser = async function (req, res) {
+    try {
+
+        let userId = req.params.userId
+
+        if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "Invalid userId" })
+
+        let checkUser = await userModel.findById({ _id: userId })
+        if (!checkUser) { return res.status(404).send({ status: false, message: "user not found" })}
+
+        let data = req.body
+
+        let { fname, lname, email, profileImage, phone, password, address } = data
         
+        if (Object.keys(data).length < 1) { return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" }); }
 
-//     } catch (err) {
-//         res.status(500).send({status: false,  message: err });
-//       }
-// }
+        if (fname) {
+            if (!isValidName(fname)) {
+                return res.status(400).send({ status: false, message: "first name is missing ! " })
+            }
+        }
 
-module.exports = { createUser,loginUser ,getUser}
+        if (lname) {
+            if (!isValidName(lname)) {
+                return res.status(400).send({ status: false, message: "last name is missing ! " })
+            }
+        }
+
+        if (email) {
+            if (!isValidEmail(email)) {
+                return res.status(400).send({ status: false, message: "email is missing ! " })
+            }
+            let checkEmail = await userModel.findOne({ email: email })
+            if (checkEmail) return res.status(400).send({ status: false, message: "Email already exists" })
+        }
+
+        if (profileImage) {
+            if (!isValidName(profileImage)) {
+                return res.status(400).send({ status: false, message: "ProfileImage is missing ! " })
+            }
+        }
+
+        if (phone) {
+            if (!isValidMobile(phone)) {
+                return res.status(400).send({ status: false, message: "phone number is missing ! " })
+
+            } let checkPhone = await userModel.findOne({ phone: phone })
+            if (checkPhone) return res.status(400).send({ status: false, message: "Phone Number already exists" })
+        }
+
+        if (password) {
+            if (!isValidPassword(password)) {
+                return res.status(400).send({ status: false, message: "Minimum eight characters, at least 1 letter and 1 number in Password : Min 8 and Max 15" })
+            }
+        }
+
+        let Updatedata = await userModel.findOneAndUpdate({ _id: userId }, data, { new: true })
+        res.status(201).send({ status: true, message: "User profile Updated", data: Updatedata })
+
+    }
+    catch (err) {
+        res.status(500).send({ status: false, message: err.message })
+    }
+}
+
+module.exports = { createUser,loginUser ,getUser,updateUser}
