@@ -34,7 +34,7 @@ const isValidMobile = function (mobile) {
 
 //Password Validation
 const isValidPassword = function(password){
-    const passRegex = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,15}$/
+    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
     return passRegex.test(password)
 }
 
@@ -62,6 +62,7 @@ const isValidDate =function(date){
     const  dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
     return dateRegex.test(date)
 }
+
 
 
 
