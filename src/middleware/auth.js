@@ -1,18 +1,14 @@
 const jwt = require("jsonwebtoken");
 
-
 const authentication = function (req, res, next) {
     try {
         let token = req.headers["x-api-key"]
         if (!token) return res.status(401).send({ status: false, message: "token is not present" })
 
-        jwt.verify(token, "Project5",(err, decoded) => {
-            if (err) {
-                res.status(401).send({ status: false, Error: err.message })
-            }
+        jwt.verify(token, "Project5", (err, decoded) => {
+            if (err) { res.status(401).send({ status: false, Error: err.message }) }
             req.token = decoded
         })
-
         next()
 
     } catch (err) {
@@ -20,4 +16,4 @@ const authentication = function (req, res, next) {
     }
 }
 
-module.exports.authentication=authentication
+module.exports= {authentication}

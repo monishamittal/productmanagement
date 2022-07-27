@@ -1,6 +1,5 @@
 //.................................... Import Models for using in this module ....................//
 const mongoose = require("mongoose");
-// const ObjectId = mongoose.Schema.Types.ObjectId;
 
 //................................. Create Schema .........................//
 const productSchema = new mongoose.Schema(
@@ -30,25 +29,25 @@ const productSchema = new mongoose.Schema(
     required:true,
     //  Rupee symbol
     },
-  isFreeShipping: {
-    type:Boolean,
-    default: false
-},
-  productImage: {
-    type:String,
-    required:true
-},  // s3 link
-  style: {
-    type:String,
-  },
+//   isFreeShipping: {
+//     type:Boolean,
+//     default: false
+// },
+//   productImage: {
+//     type:String,
+//     required:true
+// },  // s3 link
+//   style: {
+//     type:String,
+//   },
   availableSizes: {
     type:String,
     //  at least one size,
       enum:["S", "XS","M","X", "L","XXL", "XL"]
     },
-  installments: {
-    type:Number
-},
+//   installments: {
+//     type:Number
+// },
   deletedAt: {
     type:Date,
     //  when the document is deleted

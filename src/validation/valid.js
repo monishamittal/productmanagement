@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 
-
 //Value Validation
 const isValid = function(value){
     if(typeof value ==='undefined' || value ===null)  return false
@@ -9,10 +8,10 @@ const isValid = function(value){
 }
 
 //String Validation
-const isValidString = function(value){
-    if(typeof value ==='string' && value.trim().length ===0)return false
-    return true
-}
+// const isValidString = function(value){
+//     if(typeof value ==='string' && value.trim().length ===0)return false
+//     return true
+// }
 
 //Name Validation for Fname and Lname
 const isValidName =function(name){
@@ -32,6 +31,13 @@ const isValidMobile = function (mobile) {
     return re.test(mobile);
 }
 
+//Number Validation
+const isValidNumber = function (number) {
+    var re =/^\d{0,8}[.]?\d{1,4}$/;
+    return re.test(number);
+}
+
+
 //Password Validation
 const isValidPassword = function(password){
     const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
@@ -39,7 +45,6 @@ const isValidPassword = function(password){
 }
 
 // Profile Validation
-
 const isValidProfile = function(profile){
     const profileRegex = /[^\\s]+(.*?)\\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/
     return profileRegex.test(profile)
@@ -51,31 +56,20 @@ const  isValidObjectId =function(id){
     return ObjectId.isValid(id)
 }
 //  Address Validation
-const isValidAddress = function (address) {
-    if (typeof address === 'undefined' || address === null) return false
-    if (Object.keys(address).length === 0) return false
-    return true;
-}
+// const isValidAddress = function (address) {
+//     if (typeof address === 'undefined' || address === null) return false
+//     if (Object.keys(address).length === 0) return false
+//     return true;
+// }
 
 //Date Validation
-const isValidDate =function(date){
-    const  dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-    return dateRegex.test(date)
-}
+// const isValidDate =function(date){
+//     const  dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+//     return dateRegex.test(date)
+// }
 
-
-
-
-module.exports = { 
-    isValidName,
-    isValidString, 
-    isValidEmail,
-    isValidMobile, 
-    isValidPassword, 
-    isValidProfile,
-    isValidObjectId, 
-    isValid,
-    isValidDate,
-    isValidAddress,
-  
-}
+module.exports = {isValidName,isValidEmail,isValidMobile,isValidPassword,isValidProfile,isValidObjectId,isValid,isValidNumber}
+    // isValidDate,
+    // isValidAddress,
+    // isValidString, 
+// }
