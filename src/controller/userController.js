@@ -97,33 +97,19 @@ const createUser = async function (req, res) {
 const loginUser = async function (req, res) {
     try {
         const data = req.body
-        if(!data){
-            return res.status(400).send({ status: false, message: "Please enter email and password" })
-        }
+        if (!data) { return res.status(400).send({ status: false, message: "Please enter email and password" }) }
         const email = req.body.email;
-        
         const password = req.body.password;
-        
+
         const user = await userModel.findOne({ email });
-        if (!user) {
-            return res.status(404).send({ status: false, msg: "User dose not found" })
-        }
+        if (!user) { return res.status(404).send({ status: false, msg: "User dose not found" }) }
 
         // password checking
         let actualPassWord = await bcrypt.compare(password, user.password);
-
         if (!actualPassWord) return res.status(400).send({ status: false, message: "Incorrect password" })
 
-
         let userId = user._id
-        let token = jwt.sign({
-
-            userId: userId,                                     //unique Id
-            at: Math.floor(Date.now() / 1000),                  //issued date
-            exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60   //expires in 24 hr 
-
-        }, "Project5")
-
+        let token = jwt.sign({ userId: userId }, "Project5", { expiresIn: "2d" })
         res.status(200).send({ status: true, message: "User login successfull", data: { userId, token: token } });
 
     } catch (err) {
@@ -187,9 +173,8 @@ const updateUser = async function (req, res) {
 
         if (password) {
             if (!isValidPassword(password)) { return res.status(400).send({ status: false, message: "Minimum eight characters, at least 1 letter and 1 number in Password : Min 8 and Max 15" }) }
-        
-        const hash = bcrypt.hashSync(password, saltRounds);     
-        data.password = hash
+            const hash = bcrypt.hashSync(password, saltRounds);
+            data.password = hash
         }
 
         let Updatedata = await userModel.findOneAndUpdate({ _id: userId }, data, { new: true })

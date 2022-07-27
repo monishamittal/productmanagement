@@ -37,17 +37,17 @@ const productSchema = new mongoose.Schema(
 //     type:String,
 //     required:true
 // },  // s3 link
-//   style: {
-//     type:String,
-//   },
+  style: {
+    type:String,
+  },
   availableSizes: {
     type:String,
     //  at least one size,
       enum:["S", "XS","M","X", "L","XXL", "XL"]
     },
-//   installments: {
-//     type:Number
-// },
+  installments: {
+    type:Number
+},
   deletedAt: {
     type:Date,
     //  when the document is deleted
