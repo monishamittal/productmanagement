@@ -172,8 +172,6 @@ const createUser = async function (req, res) {
 }
 
 
-
-
 const loginUser = async function (req, res) {
     try {
        let userEmail = req.pbody.email
@@ -185,7 +183,7 @@ const loginUser = async function (req, res) {
  let token = jwt.sign(
   {
      userId: userDetails._id.toString(),
-   },"Project5");
+   },"Project5"); 
  res.setHeader("x-api-key", token);
  res.status(201).send({ status: true, token: token })
 

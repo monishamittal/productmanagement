@@ -6,7 +6,7 @@ const productController = require("../controller/productController")
 const userController = require("../controller/userController")
 
 router.post('/register',userController.createUser);
-router.post('/register',userController.loginUser);
+router.post('/registeruser',userController.loginUser);
 router.get('/user/:userId/profile',userController.getUser);
 router.put('/user/:userId/profile',userController.updateUser);
 
