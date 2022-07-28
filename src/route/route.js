@@ -12,7 +12,7 @@ router.get('/user/:userId/profile', middleware.authentication, userController.ge
 router.put('/user/:userId/profile', middleware.authentication,middleware.authorization, userController.updateUser);         //middleware.authorization
 
 router.post('/products',productController.createProduct);
-router.get('/products',productController.getProduct);
+router.get("/products",productController.getProduct)
 router.get('/products/:productId',productController.getProductByParam);
 router.put('/products/:productId',productController.updateProduct);
 router.delete('/products/:productId',productController.deleteProduct);
