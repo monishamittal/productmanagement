@@ -29,14 +29,14 @@ const productSchema = new mongoose.Schema(
     required:true,
     //  Rupee symbol
     },
-//   isFreeShipping: {
-//     type:Boolean,
-//     default: false
-// },
-//   productImage: {
-//     type:String,
-//     required:true
-// },  // s3 link
+  isFreeShipping: {
+    type:Boolean,
+    default: false
+},
+  productImage: {
+    type:String,
+    required:true
+},  // s3 link
   style: {
     type:String,
   },
