@@ -76,8 +76,8 @@ const createUser = async function (req, res) {
 
         let files = req.files
         if (!(files && files.length)) { return res.status(400).send({ status: false, message: " Please Provide The Profile Image" }) }
-        const uploadedBookImage = await uploadFile(files[0])
-        data.profileImage = uploadedBookImage
+        const uploadedProfileImage = await uploadFile(files[0])
+        data.profileImage = uploadedProfileImage
 
         //=======================================================================================
         //hashing the password with bcrypt
@@ -143,7 +143,7 @@ const updateUser = async function (req, res) {
         if (!checkUser) { return res.status(404).send({ status: false, message: "user not found" }) }
 
         let data = req.body
-        let { fname, lname, email, profileImage, phone, password, address } = data
+        let { fname, lname, email, profileImage, phone, password } = data
 
         if (Object.keys(data).length < 1) { return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" }); }
 
@@ -172,10 +172,10 @@ const updateUser = async function (req, res) {
         }
 
         if (password) {
-            if (!isValidPassword(password)) { return res.status(400).send({ status: false, message: "Minimum eight characters, at least 1 letter and 1 number in Password : Min 8 and Max 15" }) }
+            if (!isValidPassword(password)) { return res.status(400).send({ status: false, message: "Minimum eight characters, at least 1 capital and small letter, 1 special character and 1 number in Password : Min 8 and Max 15" }) }
             const hash = bcrypt.hashSync(password, saltRounds);
             data.password = hash
-        }
+        } 
 
         let Updatedata = await userModel.findOneAndUpdate({ _id: userId }, data, { new: true })
         res.status(201).send({ status: true, message: "User profile Updated", data: Updatedata })

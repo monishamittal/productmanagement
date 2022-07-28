@@ -19,6 +19,12 @@ const isValidName =function(name){
     return nameRegex.test(name)
 }
 
+//Name Validation for Fname and Lname
+// const isBoolean =function(boolean){
+//     const  booleanRegex =/^(True|False|TRUE|FALSE)$/
+//     return booleanRegex.test(boolean)
+// }
+
 //Email Validation
 const isValidEmail = function(email){
     const emailRegex = /^[a-z0-9][a-z0-9-_\.]+@([a-z]|[a-z0-9]?[a-z0-9-]+[a-z0-9])\.[a-z0-9]{2,10}(?:\.[a-z]{2,10})?$/
@@ -37,6 +43,11 @@ const isValidNumber = function (number) {
     return re.test(number);
 }
 
+//installments Validation
+// const isValidInstallment = function (installment) {
+//     var re =/^([1-9]|1[012])$/;
+//     return re.test(installment);
+// }
 
 //Password Validation
 const isValidPassword = function(password){
@@ -63,10 +74,40 @@ const  isValidObjectId =function(id){
 // }
 
 //Date Validation
-// const isValidDate =function(date){
-//     const  dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-//     return dateRegex.test(date)
+// const isValidSize =function(size){
+//     const  sizeRegex = //;
+//     return sizeRegex.test(size)
 // }
+
+
+// const isValidSize = (size) => {
+//     if (!Array.isArray(size)) {
+//         return size.replace("[", "").replace("]", "").replace("{", "").replace("}", "").trim().split(",").filter((size) => {
+//             return size !== ""
+//         })
+//     }
+//     return size
+// }
+// const checkValue = function (value) {
+//     let arrValue = [];
+//     value.map((x) => { 
+//       x= x.trim();
+//       if (x.length) arrValue.push(x);
+//     });
+//     return arrValue.length ? arrValue : false;
+//   };
+  
+//   //function for converting string into array
+//   const convertToArray = function (value) {      
+//     if (typeof value == "string") {
+//       if(value.trim()){
+//       let newValue = value.trim()
+//       return [newValue];
+//       }
+//     } else if (value?.length > 0) return checkValue(value);
+//     return false;
+//   };
+
 
 module.exports = {isValidName,isValidEmail,isValidMobile,isValidPassword,isValidProfile,isValidObjectId,isValid,isValidNumber}
     // isValidDate,

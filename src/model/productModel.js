@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
   price: {
     type:Number, 
     required:true,
-    // valid number/decimal
+
 },
   currencyId: {
     type:String,
@@ -27,16 +27,15 @@ const productSchema = new mongoose.Schema(
   currencyFormat: {
     type:String,
     required:true,
-    //  Rupee symbol
     },
-//   isFreeShipping: {
-//     type:Boolean,
-//     default: false
-// },
-//   productImage: {
-//     type:String,
-//     required:true
-// },  // s3 link
+  isFreeShipping: {
+    type:Boolean,
+    default: false
+},
+  productImage: {
+    type:String,
+    required:true
+},
   style: {
     type:String,
   },
