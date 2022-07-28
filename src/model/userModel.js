@@ -49,4 +49,4 @@ const userSchema = new mongoose.Schema({
     },{ timestamps: true });
 
 
-module.exports = mongoose.model("User", userSchema);                         //provides an interface to the database like CRUD operation
+module.exports = mongoose.model("project5", userSchema);                         //provides an interface to the database like CRUD operation
