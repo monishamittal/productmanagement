@@ -1,6 +1,5 @@
 //.................................... Import Models for using in this module ....................//
 const mongoose = require("mongoose");
-// const ObjectId = mongoose.Schema.Types.ObjectId;
 
 //................................. Create Schema .........................//
 const productSchema = new mongoose.Schema(
