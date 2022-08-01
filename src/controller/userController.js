@@ -163,16 +163,35 @@ const updateUser = async function (req, res) {
             data.address = JSON.parse(data.address)
             if (!isValid(data.address)) { return res.status(400).send({ status: false, message: "Please enter address!" }) }
 
-            if (!isValid(data.address.shipping)) { return res.status(400).send({ status: false, message: "Please enter shipping address!" }) }
-            if (!isValid(data.address.shipping.city)) { return res.status(400).send({ status: false, message: "Please enter city in shiping address!" }) }
-            if (!isValid(data.address.shipping.street)) { return res.status(400).send({ status: false, message: "Please enter street in shiping address!" }) }
-            if (!isValid(data.address.shipping.pincode)) { return res.status(400).send({ status: false, message: "Please enter pincode in shiping address!" }) }
+            if (data.address.shipping) {
+                if (!isValid(data.address.shipping)) { return res.status(400).send({ status: false, message: "Please enter shipping address!" }) }
+            }
 
+            if (data.address.shipping.street) {
+                if (!isValid(data.address.shipping.street)) { return res.status(400).send({ status: false, message: "Please enter street in shiping address!" }) }
+            }
+            if (data.address.shipping.city) {
+                if (!isValid(data.address.shipping.city)) { return res.status(400).send({ status: false, message: "Please enter city in shiping address!" }) }
+            }
 
-            if (!isValid(data.address.billing)) { return res.status(400).send({ status: false, message: "Please enter billing address!" }) }
-            if (!isValid(data.address.billing.city)) { return res.status(400).send({ status: false, message: "Please enter city in billing address!" }) }
-            if (!isValid(data.address.billing.street)) { return res.status(400).send({ status: false, message: "Please enter street in billing address!" }) }
-            if (!isValid(data.address.billing.pincode)) { return res.status(400).send({ status: false, message: "Please enter pincode in billing address!" }) }
+            if (data.address.shipping.pincode) {
+                if (!isValid(data.address.shipping.pincode)) { return res.status(400).send({ status: false, message: "Please enter pincode in shiping address!" }) }
+            }
+            if (data.address.billing) {
+                if (!isValid(data.address.billing)) { return res.status(400).send({ status: false, message: "Please enter billing address!" }) }
+            }
+            if (data.address.billing.city) {
+
+                if (!isValid(data.address.billing.city)) { return res.status(400).send({ status: false, message: "Please enter city in billing address!" }) }
+            }
+            if (data.address.billing.street) {
+
+                if (!isValid(data.address.billing.street)) { return res.status(400).send({ status: false, message: "Please enter street in billing address!" }) }
+            }
+            if (data.address.billing.pincode) {
+
+                if (!isValid(data.address.billing.pincode)) { return res.status(400).send({ status: false, message: "Please enter pincode in billing address!" }) }
+            }
 
         }
 

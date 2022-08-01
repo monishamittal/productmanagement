@@ -1,7 +1,6 @@
 //.................................... Import Models for using in this module ....................//
 const mongoose = require("mongoose");
 
-
 //................................. Create Schema .........................//
 const userSchema = new mongoose.Schema({
     fname: {
@@ -44,8 +43,6 @@ const userSchema = new mongoose.Schema({
       },
     },
     
-  
-
     },{ timestamps: true });
 
 

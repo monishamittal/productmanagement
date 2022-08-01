@@ -1,31 +1,6 @@
 const productModel = require('../model/productModel');
-// const aws = require("aws-sdk")
 const { uploadFile } = require('./aws')
-
-
-
 const { isValidName, isValidObjectId, isValid, isValidNumber } = require('../validation/valid')
-
-// aws.config.update({
-//     accessKeyId: "AKIAY3L35MCRVFM24Q7U",
-//     secretAccessKey: "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",
-//     region: "ap-south-1"
-// })
-// let uploadFile = async (file) => {
-//     return new Promise(function (resolve, reject) {
-//         let s3 = new aws.S3({ apiVersion: '2006-03-01' });
-//         var uploadParams = {
-//             ACL: "public-read",
-//             Bucket: "classroom-training-bucket",
-//             Key: "abc/" + file.originalname,
-//             Body: file.buffer
-//         }
-//         s3.upload(uploadParams, function (err, data) {
-//             if (err) { return reject({ "error": err }) }
-//             return resolve(data.Location)
-//         })
-//     })
-// }
 
 // ---------------------------------------------------
 const createProduct = async function (req, res) {
@@ -50,7 +25,7 @@ const createProduct = async function (req, res) {
         if (currencyFormat != "₹") { return res.status(400).send({ status: false, message: "Currency must be in ₹ only" }) }
 
         let productImage = req.files
-        if (!(productImage && productImage.length)) { return res.status(400).send({ status: false, message: " Please Provide The Profile Image" }) }
+        if (!(productImage && productImage.length)) { return res.status(400).send({ status: false, message: " Please Provide The Product Image" }) }
         const uploadedproductImage = await uploadFile(productImage[0])
         data.productImage = uploadedproductImage
 
@@ -66,7 +41,7 @@ const createProduct = async function (req, res) {
             if (availableSizes.indexOf(availableSizes[i]) != i) {return res.status(400).send({ status: false, message: "Size not present!" })}
         }
         data.availableSizes = availableSizes
-
+ 
         if (typeof isFreeShipping != 'undefined') {
             isFreeShipping = isFreeShipping.trim()
             if (!["true", "false"].includes(isFreeShipping)) { return res.status(400).send({ status: false, message: "isFreeshipping is a boolean type only" })}
@@ -109,15 +84,15 @@ const getProduct = async function(req,res) {
        
         if(priceGreaterThan){
             if(!isValid(priceGreaterThan)){ return res.status(400).send({status : false, messsage : "Enter value for priceGreaterThan field"}) }
-            filter['price'] = { '$gt' : priceGreaterThan}
+            filter['price'] = { '$gte' : priceGreaterThan}
         }
  
         if(priceLessThan){
             if(!isValid(priceLessThan)){ return res.status(400).send({status : false, messsage : "Enter value for priceLessThan"}) }
-            filter['price'] = { '$lt' : priceLessThan}
+            filter['price'] = { '$lte' : priceLessThan}
         }
  
-        if(priceLessThan && priceGreaterThan){ filter['price'] = { '$lt' : priceLessThan, '$gt' : priceGreaterThan}}
+        if(priceLessThan && priceGreaterThan){ filter['price'] = { '$lte' : priceLessThan, '$gte' : priceGreaterThan}}
  
         if(priceSort)
         {
@@ -177,8 +152,6 @@ const updateProduct = async function (req, res) {
     try {
         let productId = req.params.productId
 
-        //if (!isValidObjectId(productId)) return res.status(400).send({ status: false, message: "Invalid userId" })
-
         let checkproduct = await productModel.findById({ _id: productId })
         if (!checkproduct) { return res.status(404).send({ status: false, message: "product not found" })}
 
@@ -231,7 +204,7 @@ const deleteProduct = async function (req, res) {
         let Product = await productModel.findOne({ _id: ProductId, isDeleted: false })
         if (!Product) { return res.status(404).send({ status: false, message: "Product not exist in DB" }) }
 
-        let check = await productModel.findOneAndUpdate({ _id: BookId }, { isDeleted: true, deletedAt: date }, { new: true })
+        let check = await productModel.findOneAndUpdate({ _id: ProductId }, { isDeleted: true, deletedAt: date }, { new: true })
         return res.status(200).send({ status: true, message: "success", data: check })
 
     } catch (err) {
