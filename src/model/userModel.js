@@ -4,46 +4,65 @@ const mongoose = require("mongoose");
 //................................. Create Schema .........................//
 const userSchema = new mongoose.Schema({
     fname: {
-        type:String, 
-        required:true
+        type: String,
+        required: true
     },
     lname: {
-        type:String, 
-        required:true
+        type: String,
+        required: true
     },
     email: {
-        type:String, 
-        required:true, 
-        valid:true, 
-        unique:true},
-    profileImage: {
-        type:String, 
-        required:true
-    },                          // s3 link
-    phone: {
-        type:String, 
-        required:true, 
-        unique:true, 
-        valid:true 
-    }, 
-    password: {
-        type:String, 
-        required:true
-    },                   // encrypted password
-    address: {
-      shipping: {
-        street: {type:String, required:true},
-        city: {type:String, required:true},
-        pincode: {type:Number, required:true}
-      },
-      billing: {
-        street: {type:String, required:true},
-        city: {type:String, required:true},
-        pincode: {type:Number, required:true}
-      },
+        type: String,
+        required: true,
+        valid: true,
+        unique: true
     },
-    
-    },{ timestamps: true });
+    profileImage: {
+        type: String,
+        required: true
+    },                        
+    phone: {
+        type: String,
+        required: true,
+        unique: true,
+        valid: true
+    },
+    password: {
+        type: String,
+        required: true
+    },                  
+    address: {
+        shipping: {
+            street: {
+                type: String,
+                required: true
+            },
+            city: {
+                type: String,
+                required: true
+            },
+            pincode: {
+                type: Number,
+                required: true
+            }
+        },
+        billing: {
+            street: {
+                type: String,
+                required: true
+            },
+            city: {
+                type: String,
+                required: true
+            },
+            pincode: {
+                type: Number,
+                required: true
+            }
+        },
+    },
 
+}, { timestamps: true });
 
+//................................. exporting schema .........................// 
 module.exports = mongoose.model("User", userSchema);                         //provides an interface to the database like CRUD operation

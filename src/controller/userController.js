@@ -128,7 +128,7 @@ const updateUser = async function (req, res) {
 
         if (Object.keys(data).length < 1) { return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" }); }
 
-        if (fname) {
+        if (fname || fname =="") {
             if (!isValidName(fname)) { return res.status(400).send({ status: false, message: "first name is missing ! " }) }
         }
 
@@ -144,6 +144,10 @@ const updateUser = async function (req, res) {
 
         if (profileImage) {
             if (!isValidName(profileImage)) { return res.status(400).send({ status: false, message: "ProfileImage is missing ! " }) }
+            // let profileImage = req.files
+            // if (!(profileImage && profileImage.length)) { return res.status(400).send({ status: false, message: " Please Provide The Profile Image" }) }
+            // const uploadedProfileImage = await uploadFile(profileImage[0])
+            // data.profileImage = uploadedProfileImage
         }
 
         if (phone) {
