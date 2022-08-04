@@ -130,7 +130,9 @@ const getProduct = async function(req,res) {
         return res.status(500).send({ status: false, message: error.message })      
     }
 }
+
 // =========================================
+
 const getProductByParam = async function (req, res) {
     try {
         let productId = req.params.productId;
@@ -195,7 +197,9 @@ const updateProduct = async function (req, res) {
         return res.status(500).send({ status: false, message: err.message })
     }
 }
+
 // =======================================================
+
 const deleteProduct = async function (req, res) {
     try {
         let ProductId = req.params.productId

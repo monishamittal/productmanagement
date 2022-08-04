@@ -175,7 +175,7 @@ const getCart = async (req, res) => {
         let userId = req.params.userId;
 
         //checking if the cart exist with this userId or not
-        let findCart = await Cart.findOne({ userId: userId }).populate('items.productId');
+        let findCart = await cartModel.findOne({ userId: userId }).populate('items.productId');
         if (!findCart) return res.status(404).send({ status: false, message: `No cart found with this "${userId}" userId` });
 
         res.status(200).send({ status: true, message: "Success", data: findCart })
@@ -192,7 +192,7 @@ const deleteCart = async (req, res) => {
         let userId = req.params.userId;
 
         //checking if the cart exist with this userId or not
-        let findCart = await Cart.findOne({ userId: userId });
+        let findCart = await cartModel.findOne({ userId: userId });
         if (!findCart) return res.status(404).send({ status: false, message: `No cart found with this "${userId}" userId` });
 
         //checking for an empty cart
