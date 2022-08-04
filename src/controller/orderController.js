@@ -11,13 +11,19 @@ const createOrder = async (req, res) => {
       if (!checkId) return res.status(400).send({ status: false, message: 'User Id is not present' })
 
       let orderData = req.body
-      let { cancellable, status} = orderData
+      let { cancellable, cartId} = orderData
 
-     if(cancellable == true && status == "pending"){
-      return res.status(400).send({ status: false, message: 'order cannot be cancelled' })
-     }
+     if (!isValidObjectId(cartId)) { return res.status(400).send({ status: false, message: "Invalid cartId" }) }
+
       let cartOrder = await cartModel.findOne({ userId: userId })
       if (!cartOrder) return res.status(400).send({ status: false, message: 'cart is  not present' })
+
+      if(cartOrder.items.length ===0 ){return res.status(400).send({status:false,message:"Your Cart is Empty."})}
+
+      if(cancellable){
+          if(!(cancellable==false || cancellable==true )){return res.status(400).send({status:false,message:"Enter Only true / false in cancellable"})}
+
+      }
 
       let total = 0
       for(let i = 0; i < cartOrder.items.length;i++){
@@ -31,9 +37,7 @@ const createOrder = async (req, res) => {
         totalPrice: cartOrder.totalPrice,
         totalItems: cartOrder.totalItems,
         totalQuantity:totalQuantity,
-        cancellable:orderData.cancellable,
-        status:orderData.status
-  
+        cancellable:orderData.cancellable
       }
   
       let orderCreate = await orderModel.create(cartTobeOrder)
@@ -79,7 +83,7 @@ const createOrder = async (req, res) => {
       }else{
         conditions.status = data.status;
       }
-      
+    
       let resData = await orderModel.findByIdAndUpdate({_id: findOrder._id},conditions,{new: true})
       res.status(200).send({ status: true, message: "Success", data: resData });
     } 

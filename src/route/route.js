@@ -22,7 +22,7 @@ router.put('/users/:userId/cart',middleware.authentication,middleware.authorizat
 router.get('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.getCart);
 router.delete('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.deleteCart);
 
-router.post('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.createOrder,cartController.deleteCart);
+router.post('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.createOrder);
 router.put('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.updateOrder);
 
 module.exports = router;
