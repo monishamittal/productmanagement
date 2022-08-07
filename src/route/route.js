@@ -1,3 +1,4 @@
+//--------------------requiring modules--------------------
 const express = require('express');
 const router = express.Router();
 const orderController = require("../controller/orderController")
@@ -6,33 +7,28 @@ const productController = require("../controller/productController")
 const userController = require("../controller/userController")
 const middleware = require("../middleware/auth")
 
+//--------------------for user--------------------
 router.post('/register', userController.createUser);
 router.post('/login', userController.loginUser);
 router.get('/user/:userId/profile', middleware.authentication, userController.getUser);
-router.put('/user/:userId/profile', middleware.authentication,middleware.authorization, userController.updateUser);         //middleware.authorization
+router.put('/user/:userId/profile', middleware.authentication, middleware.authorization, userController.updateUser);
 
-router.post('/products',productController.createProduct);
-router.get("/products",productController.getProduct)
-router.get('/products/:productId',productController.getProductByParam);
-router.put('/products/:productId',productController.updateProduct);
-router.delete('/products/:productId',productController.deleteProduct);
+//--------------------for products--------------------
+router.post('/products', productController.createProduct);
+router.get("/products", productController.getProduct)
+router.get('/products/:productId', productController.getProductByParam);
+router.put('/products/:productId', productController.updateProduct);
+router.delete('/products/:productId', productController.deleteProduct);
 
- router.post('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.createCart);
- router.get('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.getCart);
- router.put('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.updateCart);
- router.delete('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.deleteCart);
+//--------------------for cart--------------------
+router.post('/users/:userId/cart', middleware.authentication, middleware.authorization, cartController.createCart);
+router.get('/users/:userId/cart', middleware.authentication, middleware.authorization, cartController.getCart);
+router.put('/users/:userId/cart', middleware.authentication, middleware.authorization, cartController.updateCart);
+router.delete('/users/:userId/cart', middleware.authentication, middleware.authorization, cartController.deleteCart);
 
- router.post('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.createOrder);
- router.put('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.updateOrder);
+//--------------------for orders--------------------
+router.post('/users/:userId/orders', middleware.authentication, middleware.authorization, orderController.createOrder);
+router.put('/users/:userId/orders', middleware.authentication, middleware.authorization, orderController.updateOrder);
 
+//--------------------making file public--------------------
 module.exports = router;
-
-//  <script>
-// $(document).ready(function(){
-//     $('#checkbox').on('change', function(){
-//         $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
-//     });
-// });
-// </script>
-// <input type="password" id="password"> 
-// <input type="checkbox" id="checkbox">Show Password }

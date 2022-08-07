@@ -1,60 +1,57 @@
+//--------------------Import Models for using in this module--------------------
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-// //................................. Create Schema .........................//
+//--------------------Create Schema--------------------
 const orderSchema = new mongoose.Schema(
     {
         userId: {
-            type:ObjectId,
-            ref:"User",
-            required:true 
+            type: ObjectId,
+            ref: "User",
+            required: true
         },
         items: [{
-          productId: {
-            type:ObjectId,
-            ref: "Product",
-            required:true 
-        },
-          quantity: {
-            type:Number,
-            required:true ,
-            //  min 1
+            productId: {
+                type: ObjectId,
+                ref: "Product",
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true,
             }
         }],
         totalPrice: {
-            type:Number,
-            required:true ,
-            // comment: "Holds total price of all the items in the cart"
+            type: Number,
+            required: true,
         },
         totalItems: {
-            type:Number,
-            required:true ,
-            // comment: "Holds total number of items in the cart"
+            type: Number,
+            required: true,
         },
         totalQuantity: {
-            type:Number, 
-            required:true ,
-            // comment: "Holds total number of quantity in the cart"
+            type: Number,
+            required: true,
         },
         cancellable: {
-            type:Boolean,
-            default: true},
+            type: Boolean,
+            default: true
+        },
         status: {
-            type:String,
+            type: String,
             default: 'pending',
-            enum:["pending", "completed", "cancled"]
+            enum: ["pending", "completed", "cancelled"]
         },
         deletedAt: {
-            type:Date,
-            // when the document is deleted
-        }, 
+            type: Date,
+        },
         isDeleted: {
-            type:Boolean, 
+            type: Boolean,
             default: false
         },
     },
     { timestamps: true }
 );
 
-//........................................Export Schema..................................//
-module.exports = mongoose.model("Order", orderSchema);                         //provides an interface to the database like CRUD operation
+//--------------------provides an interface to the database like CRUD operation--------------------
+module.exports = mongoose.model("Order", orderSchema);                        
