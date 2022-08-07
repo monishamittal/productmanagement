@@ -1,19 +1,23 @@
 const mongoose = require("mongoose")
 
 //Value Validation
+const  isValidObjectId =function(id){
+    var ObjectId = mongoose.Types.ObjectId;
+    return ObjectId.isValid(id)
+}
 const isValid = function(value){
     if(typeof value ==='undefined' || value ===null)  return false
     if(typeof value ==='string' && value.trim().length ===0)return false
     return true
 }
-    const isValidSize = (size) => {
-        if (!Array.isArray(size)) {
-            return size.replace("[", "").replace("]", "").replace("{", "").replace("}", "").trim().split(",").filter((size) => {
-                return size !== ""
-            })
-        }
-        return size
-    }
+    // const isValidSize = (size) => {
+    //     if (!Array.isArray(size)) {
+    //         return size.replace("[", "").replace("]", "").replace("{", "").replace("}", "").trim().split(",").filter((size) => {
+    //             return size !== ""
+    //         })
+    //     }
+    //     return size
+    // }
 //String Validation
 // const isValidString = function(value){
 //     if(typeof value ==='string' && value.trim().length ===0)return false
@@ -25,6 +29,12 @@ const isValidName =function(name){
     const  nameRegex =/^[a-zA-Z ]{2,30}$/
     return nameRegex.test(name)
 }
+
+// Name Validation for Fname and Lname
+// const isBoolean =function(boolean){
+//     const  booleanRegex =/^(True|False|TRUE|FALSE)$/
+//     return booleanRegex.test(boolean)
+// }
 
 //Email Validation
 const isValidEmail = function(email){
@@ -44,6 +54,11 @@ const isValidNumber = function (number) {
     return re.test(number);
 }
 
+//installments Validation
+// const isValidInstallment = function (installment) {
+//     var re =/^([1-9]|1[012])$/;
+//     return re.test(installment);
+// }
 
 //Password Validation
 const isValidPassword = function(password){
@@ -58,10 +73,7 @@ const isValidProfile = function(profile){
 }
 
 //ObjectId Validation
-const  isValidObjectId =function(id){
-    var ObjectId = mongoose.Types.ObjectId;
-    return ObjectId.isValid(id)
-}
+
 //  Address Validation
 // const isValidAddress = function (address) {
 //     if (typeof address === 'undefined' || address === null) return false
@@ -70,12 +82,42 @@ const  isValidObjectId =function(id){
 // }
 
 //Date Validation
-// const isValidDate =function(date){
-//     const  dateRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-//     return dateRegex.test(date)
+// const isValidSize =function(size){
+//     const  sizeRegex = //;
+//     return sizeRegex.test(size)
 // }
 
-module.exports = {isValidName,isValidEmail,isValidMobile,isValidPassword,isValidProfile,isValidObjectId,isValid,isValidNumber,isValidSize}
+
+// const isValidSize = (size) => {
+//     if (!Array.isArray(size)) {
+//         return size.replace("[", "").replace("]", "").replace("{", "").replace("}", "").trim().split(",").filter((size) => {
+//             return size !== ""
+//         })
+//     }
+//     return size
+// }
+// const checkValue = function (value) {
+//     let arrValue = [];
+//     value.map((x) => { 
+//       x= x.trim();
+//       if (x.length) arrValue.push(x);
+//     });
+//     return arrValue.length ? arrValue : false;
+//   };
+  
+//   //function for converting string into array
+//   const convertToArray = function (value) {      
+//     if (typeof value == "string") {
+//       if(value.trim()){
+//       let newValue = value.trim()
+//       return [newValue];
+//       }
+//     } else if (value?.length > 0) return checkValue(value);
+//     return false;
+//   };
+
+
+module.exports = {isValidName,isValidEmail,isValidMobile,isValidPassword,isValidProfile,isValidObjectId,isValid,isValidNumber}
     // isValidDate,
     // isValidAddress,
     // isValidString, 

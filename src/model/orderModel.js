@@ -1,4 +1,3 @@
-// //.................................... Import Models for using in this module ....................//
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -7,13 +6,13 @@ const orderSchema = new mongoose.Schema(
     {
         userId: {
             type:ObjectId,
-            // ref:"User",
+            ref:"User",
             required:true 
         },
         items: [{
           productId: {
             type:ObjectId,
-            // ref: "Product",
+            ref: "Product",
             required:true 
         },
           quantity: {

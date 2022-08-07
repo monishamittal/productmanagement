@@ -12,17 +12,27 @@ router.get('/user/:userId/profile', middleware.authentication, userController.ge
 router.put('/user/:userId/profile', middleware.authentication,middleware.authorization, userController.updateUser);         //middleware.authorization
 
 router.post('/products',productController.createProduct);
-// router.get('/products',productController.getProduct);
+router.get("/products",productController.getProduct)
 router.get('/products/:productId',productController.getProductByParam);
 router.put('/products/:productId',productController.updateProduct);
-router.delete('/products/:productId',productController.deleteProduct);   
+router.delete('/products/:productId',productController.deleteProduct);
 
-// router.post('/users/:userId/cart',cartController.createCart);
-// router.put('/users/:userId/cart',cartController.updateCart);
-// router.get('/users/:userId/cart',cartController.getCart);
-// router.delete('/users/:userId/cart',cartController.deleteCart);
+ router.post('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.createCart);
+ router.get('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.getCart);
+ router.put('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.updateCart);
+ router.delete('/users/:userId/cart',middleware.authentication,middleware.authorization,cartController.deleteCart);
 
-// router.post(' /users/:userId/orders',orderController.createOrder);
-// router.put(' /users/:userId/orders',orderController.updateOrder);
+ router.post('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.createOrder);
+ router.put('/users/:userId/orders',middleware.authentication,middleware.authorization,orderController.updateOrder);
 
 module.exports = router;
+
+//  <script>
+// $(document).ready(function(){
+//     $('#checkbox').on('change', function(){
+//         $('#password').attr('type',$('#checkbox').prop('checked')==true?"text":"password"); 
+//     });
+// });
+// </script>
+// <input type="password" id="password"> 
+// <input type="checkbox" id="checkbox">Show Password }
